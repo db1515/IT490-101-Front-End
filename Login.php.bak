@@ -1,0 +1,35 @@
+<?php
+
+include("account.php");
+//include("Myfunction.php"); 
+include("header.php");
+$conn = new mysqli($hostname, $username, $password, $project);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully";
+echo '<br>';
+
+
+$email = mysqli_real_escape_string($conn,$_POST['email']);
+$pass = sha1(mysqli_real_escape_string($conn,$_POST['password']));
+
+
+$query = "SELECT * FROM user where email='".$email."' and password='".$pass."'";
+
+if($result = mysqli_query($conn, $query)){
+
+$rowcount = mysqli_num_rows($result);
+if ($rowcount == 1) {
+    // output data of each row
+   
+        echo "successfully logged in";
+    
+} else {
+    echo "Login Failed";
+}
+}
+
+include("footer.php");
+?>
